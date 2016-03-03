@@ -79,6 +79,10 @@
 		3AA78D1C591D3076C8A42331 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8BF086511C874D8400D336B3 /* Foundation.framework */,
+				8BF0864D1C874D5C00D336B3 /* CFNetwork.framework */,
+				8BF0864B1C874D5100D336B3 /* libicucore.tbd */,
+				8BF0864F1C874D6600D336B3 /* Security.framework */,
 				3902C566F4533563CDB31165 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -93,15 +97,11 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8B85552F1C885364009DA472 /* Frameworks */ = {
+		8B85552F1C885364009DA472 /* ?? */ = {
 			isa = PBXGroup;
 			children = (
-				8BF0864B1C874D5100D336B3 /* libicucore.tbd */,
-				8BF0864D1C874D5C00D336B3 /* CFNetwork.framework */,
-				8BF0864F1C874D6600D336B3 /* Security.framework */,
-				8BF086511C874D8400D336B3 /* Foundation.framework */,
 			);
-			name = Frameworks;
+			name = "??";
 			sourceTree = "<group>";
 		};
 		8B8555301C88543E009DA472 /* Application Delegate */ = {
@@ -183,7 +183,7 @@
 				8B8555341C8854E7009DA472 /* Views */,
 				8BF086471C874C6800D336B3 /* SRWebSocket */,
 				8B8555331C8854B8009DA472 /* Resources */,
-				8B85552F1C885364009DA472 /* Frameworks */,
+				8B85552F1C885364009DA472 /* ?? */,
 				8BF0862D1C874C4D00D336B3 /* Supporting Files */,
 			);
 			name = "FastenTestApp (FTA)";
@@ -221,6 +221,7 @@
 				8BF086271C874C4D00D336B3 /* Frameworks */,
 				8BF086281C874C4D00D336B3 /* Resources */,
 				082712C6C2CC428DB13054A8 /* Copy Pods Resources */,
+				CB7CD9C124F849DF1DE50847 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -306,6 +307,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CB7CD9C124F849DF1DE50847 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

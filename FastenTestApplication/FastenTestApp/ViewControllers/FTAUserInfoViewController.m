@@ -31,7 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    /*
     FTAAuthicationUserManager *authManager = [FTAAuthicationUserManager sharedManager];
     
     // If there is no session token, force the login screen. If there
@@ -45,8 +45,59 @@
     {
         [self validateLogin];
     }
+     */
 
 }
+
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    /*
+    FTAAuthicationUserManager *authManager = [FTAAuthicationUserManager sharedManager];
+    
+    // If there is no session token, force the login screen. If there
+    // is a session token, try to validate it
+    
+    if (!authManager.lastAPIToken)
+    {
+        [self showLoginScreen:nil];
+    }
+    else if (!authManager.user)
+    {
+        [self validateLogin];
+    }
+     */
+
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    FTAAuthicationUserManager *authManager = [FTAAuthicationUserManager sharedManager];
+    
+    // If there is no session token, force the login screen. If there
+    // is a session token, try to validate it
+    
+    if (!authManager.lastAPIToken)
+    {
+        [self showLoginScreen:nil];
+    }
+    else if (!authManager.user)
+    {
+        [self validateLogin];
+    }
+    else if ( authManager.user == self.currentUser)
+    {
+        DLog(@"ALL GOOD\n\n");
+    }
+    else
+    {
+        ALog(@"BAD NEWS !!!");
+    }
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -87,6 +138,8 @@
 - (void)didFinishAuthentication:(FTAUser *)user
 {
     DLog(@"\n\n");
+    
+    self.currentUser = user;
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

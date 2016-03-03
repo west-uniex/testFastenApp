@@ -12,11 +12,11 @@
 
 @interface FTAAuthicationUserManager : NSObject
 
-@property (nonatomic, strong) FTAUser  * user;
-@property (nonatomic, strong) NSString * lastAPIToken;
+@property (nonatomic, strong, readonly) FTAUser  * user;
+@property (nonatomic, strong, readonly) NSString * lastAPIToken;
 
-@property (nonatomic, strong) NSString * savedUsername;
-@property (nonatomic, strong) NSString * savedPassword;
+@property (nonatomic, strong, readonly) NSString * savedUsername;
+@property (nonatomic, strong, readonly) NSString * savedPassword;
 
 //@property (nonatomic, assign) BOOL networkIsReachable;
 

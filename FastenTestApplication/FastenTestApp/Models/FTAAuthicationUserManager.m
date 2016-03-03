@@ -17,8 +17,15 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 
 @interface FTAAuthicationUserManager () <SRWebSocketDelegate>
 
-@property (nonatomic, strong) SRWebSocket *serverSocket;
+@property (nonatomic, strong) NSString * savedUsername;
+@property (nonatomic, strong) NSString * savedPassword;
 
+@property (nonatomic, strong) FTAUser  * user;
+@property (nonatomic, strong) NSString * lastAPIToken;
+
+
+
+@property (nonatomic, strong) SRWebSocket *serverSocket;
 @property (nonatomic, strong) NSString *usernameInRequest;
 @property (nonatomic, strong) NSString *passwordInRequest;
 @property (nonatomic, copy)   void (^ completionBlockInRequest) (FTAUser *user, NSError *error); //FTACompletionBlock completionBlockInRequest;
@@ -129,7 +136,34 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
     self.passwordInRequest = password;
     self.completionBlockInRequest = [completionBlock copy];
     
-    [_serverSocket open];
+    switch (_serverSocket.readyState)
+    {
+        case SR_CONNECTING:
+             [_serverSocket open];
+            break;
+            
+        case SR_OPEN:
+            {
+                NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"715c13b3-881a-9c97-b853-10be585a9747\",\"data\":{\"email\":\"fpi@bk.ru\",\"password\":\"123123\"}}";
+                [_serverSocket send: (id)helloMsg];
+            }
+            break;
+            
+        case SR_CLOSING:
+            {
+                sleep(0);
+            }
+            break;
+            
+        case SR_CLOSED:
+            {
+                sleep(0);
+            }
+            break;
+        
+    
+    }
+   
 
 }
 
@@ -163,7 +197,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 {
     DLog(@"\nerror : %@\n\n", error);
     
-    [_serverSocket close];
+    //[_serverSocket close];
     sleep(0);
 }
 
@@ -178,7 +212,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 - (void)webSocket:(SRWebSocket *)webSocket
    didReceivePong:(NSData *)pongPayload
 {
-    DLog(@"\npongPayload.length = %lu\n\n", pongPayload.length);
+    DLog(@"\npongPayload.length = %ul\n\n", pongPayload.length);
 }
 
 //
@@ -215,6 +249,12 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
                 FTAUser *user = [FTAUser new];
                 user.api_token = apiToken;
                 user.api_token_expiration_date = apiTokenExperationDate;
+                
+                self.user = user;
+                self.savedPassword = self.passwordInRequest;
+                self.savedUsername = self.usernameInRequest;
+                self.lastAPIToken  = user.api_token;
+                
                 self.completionBlockInRequest( user, nil);
                 
             }
@@ -229,7 +269,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
         }
     }
     
-    [_serverSocket close];
+    //[_serverSocket close];
 }
 
 

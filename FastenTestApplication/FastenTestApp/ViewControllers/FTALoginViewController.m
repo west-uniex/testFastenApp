@@ -99,12 +99,33 @@
     [SVProgressHUD setForegroundColor:[UIColor colorWithRed:0.31 green:0.46 blue:0.63 alpha:1]];
     [SVProgressHUD showWithStatus:@"Logging In" maskType:SVProgressHUDMaskTypeBlack];
     
+    /*
+    __weak typeof(self)weakSelf = self;
+    self.block = ^{
+        __strong typeof(self)self = weakSelf;
+        [self m1];
+        [self m2];
+        NSAssert(foo == bar, @"Cool assert!")
+    };*/
+    
+     __weak __typeof__(self)weakSelf = self;
     [authManager loginWithUsername:username
                           password:password
                         completion:^(FTAUser *user, NSError *error)
      {
-         DLog(@" ");
-         sleep(0);
+         [SVProgressHUD dismiss];
+         __strong typeof(self)self = weakSelf;
+         DLog(@"\nuser: %@\n\n", user);
+         if (error)
+         {
+             DLog(@"\nerror: %@\n\n", error);
+             sleep(0);
+         }
+         else
+         {
+             [self.delegate didFinishAuthentication:user];
+         }
+         
      }];
     
     

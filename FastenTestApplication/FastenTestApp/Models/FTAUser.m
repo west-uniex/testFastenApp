@@ -10,4 +10,14 @@
 
 @implementation FTAUser
 
+
+- (NSString *) description
+{
+    NSString *descString = nil;
+    
+    descString = [NSString stringWithFormat:@"\napi_token = %@\napi_token_expiration_date = %@\nsequence_id = %@\n\n", self.api_token,self.api_token_expiration_date, self.sequence_id];
+    
+    return descString;
+}
+
 @end
