@@ -200,7 +200,33 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
     {
         if ( [json isKindOfClass:[NSDictionary class]])
         {
-            //
+            NSDictionary *respDictionary = (NSDictionary *)json;
+            NSString *type = respDictionary[@"type"];
+            
+            if ([type isEqualToString:@"CUSTOMER_API_TOKEN"])
+            {
+                DLog(@"\nCUSTOMER_API_TOKEN\n\n");
+                NSDictionary *dataDict = respDictionary[@"data"];
+                NSString     *apiToken = dataDict[apiToken];
+                ZAssert(apiToken, @"api token have to be");
+                NSString *apiTokenExperationDate = dataDict[@"api_token_expiration_date"];
+                ZAssert(apiTokenExperationDate, @"api_token_expiration_date have to be");
+                
+                FTAUser *user = [FTAUser new];
+                user.api_token = apiToken;
+                user.api_token_expiration_date = apiTokenExperationDate;
+                self.completionBlockInRequest( user, nil);
+            }
+            else if ([type isEqualToString:@"CUSTOMER_ERROR"])
+            {
+                DLog(@"\nCUSTOMER_ERROR\n\n");
+            }
+            else
+            {
+                ALog(@"НЕИЗВЕСТНЫЙ НАУКЕ ЗВЕРЬ");
+            }
+            
+            sleep(0);
         }
         
         

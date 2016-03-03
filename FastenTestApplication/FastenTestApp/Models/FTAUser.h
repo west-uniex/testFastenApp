@@ -10,4 +10,9 @@
 
 @interface FTAUser : NSObject
 
+@property (nonatomic, strong) NSString *api_token;
+@property (nonatomic, strong) NSString *sequence_id;
+@property (nonatomic, strong) NSString *api_token_expiration_date;
+
+
 @end
