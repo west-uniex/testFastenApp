@@ -99,7 +99,8 @@
 
 
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -139,9 +140,12 @@
 {
     DLog(@"\n\n");
     
-    self.currentUser = user;
+    dispatch_async( dispatch_get_main_queue(),^(void)
+    {
+        self.currentUser = user;
+        [self dismissViewControllerAnimated:YES completion:nil];
+    });
     
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

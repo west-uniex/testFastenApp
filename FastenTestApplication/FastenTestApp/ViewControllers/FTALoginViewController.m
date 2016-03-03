@@ -123,6 +123,9 @@
          }
          else
          {
+             [self.usernameField resignFirstResponder];
+             [self.passwordField resignFirstResponder];
+             
              [self.delegate didFinishAuthentication:user];
          }
          
