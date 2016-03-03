@@ -21,7 +21,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 
 @property (nonatomic, strong) NSString *usernameInRequest;
 @property (nonatomic, strong) NSString *passwordInRequest;
-@property (nonatomic, copy)  FTACompletionBlock completionBlockInRequest;
+@property (nonatomic, copy)   void (^ completionBlockInRequest) (FTAUser *user, NSError *error); //FTACompletionBlock completionBlockInRequest;
 
 @end
 
@@ -207,7 +207,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             {
                 DLog(@"\nCUSTOMER_API_TOKEN\n\n");
                 NSDictionary *dataDict = respDictionary[@"data"];
-                NSString     *apiToken = dataDict[apiToken];
+                NSString     *apiToken = dataDict[@"api_token"];
                 ZAssert(apiToken, @"api token have to be");
                 NSString *apiTokenExperationDate = dataDict[@"api_token_expiration_date"];
                 ZAssert(apiTokenExperationDate, @"api_token_expiration_date have to be");
@@ -216,6 +216,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
                 user.api_token = apiToken;
                 user.api_token_expiration_date = apiTokenExperationDate;
                 self.completionBlockInRequest( user, nil);
+                
             }
             else if ([type isEqualToString:@"CUSTOMER_ERROR"])
             {
@@ -225,18 +226,10 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             {
                 ALog(@"НЕИЗВЕСТНЫЙ НАУКЕ ЗВЕРЬ");
             }
-            
-            sleep(0);
         }
-        
-        
     }
     
-    
-    
-    
-    sleep(0);
-    
+    [_serverSocket close];
 }
 
 
