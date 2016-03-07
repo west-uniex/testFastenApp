@@ -70,7 +70,7 @@
 - (void)webSocket:(SRWebSocket *)webSocket
    didReceivePong:(NSData *)pongPayload
 {
-    DLog(@"\npongPayload.length = %lu\n\n", pongPayload.length);
+    DLog(@"\npongPayload.length = %lu\n\n", (unsigned long)pongPayload.length);
 }
 //
 //   must have !!!

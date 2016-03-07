@@ -28,6 +28,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 @property (nonatomic, strong) SRWebSocket *serverSocket;
 @property (nonatomic, strong) NSString *usernameInRequest;
 @property (nonatomic, strong) NSString *passwordInRequest;
+@property (nonatomic, strong) NSString *sequenceIdInRequest;
 @property (nonatomic, copy)   void (^ completionBlockInRequest) (FTAUser *user, NSError *error); //FTACompletionBlock completionBlockInRequest;
 
 @end
@@ -128,13 +129,15 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 }
 
 
-- (void) loginWithUsername:(NSString *)username
-                  password:(NSString *)password
-                completion:(void(^)(FTAUser *user, NSError *error))completionBlock
+- (void)loginWithUsername:(NSString *)username
+                 password:(NSString *)password
+               completion:(void(^)(FTAUser *user, NSError *error))completionBlock
 {
-    self.usernameInRequest = username;
-    self.passwordInRequest = password;
+    self.usernameInRequest        = username;
+    self.passwordInRequest        = password;
     self.completionBlockInRequest = [completionBlock copy];
+    self.sequenceIdInRequest      = [[NSUUID UUID] UUIDString];
+    
     
     switch (_serverSocket.readyState)
     {
@@ -144,8 +147,11 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             
         case SR_OPEN:
             {
-                NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"715c13b3-881a-9c97-b853-10be585a9747\",\"data\":{\"email\":\"fpi@bk.ru\",\"password\":\"123123\"}}";
-                [_serverSocket send: (id)helloMsg];
+                //NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"715c13b3-881a-9c97-b853-10be585a9747\",\"data\":{\"email\":\"fpi@bk.ru\",\"password\":\"123123\"}}";
+                NSString *jsonLoginString = [self xxxLoginMessageFromPassword:password
+                                                                        email:username
+                                                                   sequenceId:self.sequenceIdInRequest];
+                [_serverSocket send: (id)jsonLoginString];
             }
             break;
             
@@ -157,16 +163,13 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             
         case SR_CLOSED:
             {
+                [_serverSocket open];
                 sleep(0);
             }
             break;
         
-    
     }
-   
-
 }
-
 
 #pragma mark
 #pragma mark    SRWebSocketDelegate
@@ -175,22 +178,13 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
     DLog(@"web socket: %@", webSocket);
-    //NSString *helloMsg = @"{ \"type\":\"TYPE_OF_MESSAGE\",\"sequence_id\":\"09caaa73-b2b1-187e-2b24-683550a49b23\",\"data\":{}}";
     
-    // Запрос для успешной операции аутентификации:
-    //NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"a29e4fd0-581d-e06b-c837-4f5f4be7dd18\",\"data\":{\"email\":\"fpi@bk.ru\",\"password\":\"123123\"}}";
+    NSString *jsonLoginString = [self xxxLoginMessageFromPassword:self.passwordInRequest
+                                                            email:self.usernameInRequest
+                                                       sequenceId:self.sequenceIdInRequest];
     
-    //                                                                    fee454fe-39bc-4623-bb82-4faeebc35a32
-    NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"715c13b3-881a-9c97-b853-10be585a9747\",\"data\":{\"email\":\"fpi@bk.ru\",\"password\":\"123123\"}}";
-    
-    // Запрос для new customer
-    //NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"a29e4fd0-581d-e06b-c837-4f5f4be7dd19\",\"data\":{\"email\":\"mikitaatamanyuk@gmail.com\",\"password\":\"123123\"}}";
-    
-    //c9bf3bd5-3bc8-4d79-93ec-ca59843f8a88
-    //NSString *helloMsg = @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"c9bf3bd5-3bc8-4d79-93ec-ca59843f8a88\",\"data\":{\"email\":\"mikitaatamanyuk@gmail.com\",\"password\":\"123123\"}}";
-    
-    DLog(@"\nsent message: %@\n\n", helloMsg);
-    [webSocket send:helloMsg];
+    DLog(@"\nsent message: %@\n\n", jsonLoginString);
+    [webSocket send: jsonLoginString];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -207,12 +201,14 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
          wasClean:(BOOL)wasClean
 {
     DLog(@"\nreason : %@\n\n", reason);
+     sleep(0);
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket
    didReceivePong:(NSData *)pongPayload
 {
     DLog(@"\npongPayload.length = %ul\n\n", pongPayload.length);
+     sleep(0);
 }
 
 //
@@ -249,8 +245,10 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
                 FTAUser *user = [FTAUser new];
                 user.api_token = apiToken;
                 user.api_token_expiration_date = apiTokenExperationDate;
+                user.sequence_id = self.sequenceIdInRequest;
                 
-                self.user = user;
+                //
+                self.user          = user;
                 self.savedPassword = self.passwordInRequest;
                 self.savedUsername = self.usernameInRequest;
                 self.lastAPIToken  = user.api_token;
@@ -261,6 +259,22 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             else if ([type isEqualToString:@"CUSTOMER_ERROR"])
             {
                 DLog(@"\nCUSTOMER_ERROR\n\n");
+                NSDictionary *dataDict = respDictionary[@"data"];
+                DLog(@"%@", dataDict);
+                NSError *error = [NSError errorWithDomain:dataDict[@"error_description"]
+                                                     code:2000
+                                                 userInfo:dataDict];
+                self.completionBlockInRequest( nil, error);
+            }
+            else if ([type isEqualToString:@"CUSTOMER_VALIDATION_ERROR"])
+            {
+                DLog(@"\nCUSTOMER_VALIDATION_ERROR\n\n");
+                NSDictionary *dataDict = respDictionary[@"data"];
+                DLog(@"%@", dataDict);
+                NSError *error = [NSError errorWithDomain:dataDict[@"error_description"]
+                                                     code:2100
+                                                 userInfo:dataDict];
+                self.completionBlockInRequest( nil, error);
             }
             else
             {
@@ -273,6 +287,34 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 }
 
 
+#pragma mark
+#pragma mark    internal methods
+#pragma mark
+
+
+- (NSString *)xxxLoginMessageFromPassword:(NSString *)pass
+                                    email:(NSString *)email
+                               sequenceId:(NSString *)sequenceId
+{
+    NSString *result = nil;
+    
+    result = [NSString stringWithFormat: @"{\"type\":\"LOGIN_CUSTOMER\",\"sequence_id\":\"%@\",\"data\":{\"email\":\"%@\",\"password\":\"%@\"}}", sequenceId, email, pass];
+    ZAssert(result, @"JSON string have to be created");
+    return result;
+}
+
+
+
+#pragma mark
+#pragma mark    clean resources
+#pragma mark
+
+
+- (void)dealloc
+{
+    DLog(@"\n \n\n");
+    sleep(0);
+}
 
 
 

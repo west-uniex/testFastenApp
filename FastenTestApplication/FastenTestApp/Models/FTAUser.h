@@ -14,5 +14,7 @@
 @property (nonatomic, strong) NSString *sequence_id;
 @property (nonatomic, strong) NSString *api_token_expiration_date;
 
+@property (nonatomic, readonly, getter=isAPI_Token_expired) BOOL aPI_Token_expired;
+
 
 @end

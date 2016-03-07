@@ -24,6 +24,8 @@
 
 @interface FTAUserInfoViewController () <FTALoginDelegate>
 
+@property (weak, nonatomic) IBOutlet UITextView *userInfoTextView;
+
 @end
 
 @implementation FTAUserInfoViewController
@@ -76,25 +78,31 @@
     [super viewDidAppear:animated];
     FTAAuthicationUserManager *authManager = [FTAAuthicationUserManager sharedManager];
     
-    // If there is no session token, force the login screen. If there
-    // is a session token, try to validate it
+    // If there is no API token or , force the login screen.
     
-    if (!authManager.lastAPIToken)
+    if ( (authManager.lastAPIToken == nil) || (authManager.user.isAPI_Token_expired == YES) )
     {
         [self showLoginScreen:nil];
     }
-    else if (!authManager.user)
-    {
-        [self validateLogin];
-    }
+    //else if (!authManager.user)
+    //{
+    //    [self validateLogin];
+    //}
     else if ( authManager.user == self.currentUser)
     {
-        DLog(@"ALL GOOD\n\n");
+        DLog(@"\nALL GOOD\n\n");
     }
     else
     {
         ALog(@"BAD NEWS !!!");
     }
+}
+
+-  (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    DLog(@" ");
 }
 
 
@@ -135,6 +143,11 @@
 }
 
 
+#pragma mark
+#pragma mark    FTALoginDelegate conforming
+#pragma mark
+
+
 
 - (void)didFinishAuthentication:(FTAUser *)user
 {
@@ -144,6 +157,8 @@
     {
         self.currentUser = user;
         [self dismissViewControllerAnimated:YES completion:nil];
+        //[self viewWillAppear:YES];
+         self.userInfoTextView.text = [self.currentUser description];
     });
     
 }

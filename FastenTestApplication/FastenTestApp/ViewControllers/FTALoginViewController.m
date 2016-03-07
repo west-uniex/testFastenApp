@@ -20,6 +20,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *loginButton;
 @property (nonatomic, weak) IBOutlet UIButton *clearInfoButton;
 
+@property (weak, nonatomic) IBOutlet UITextView *errorTextFiled;
 
 @end
 
@@ -28,6 +29,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.errorTextFiled.editable = NO;
+    self.errorTextFiled.text     = @"";
+    self.errorTextFiled.hidden   = YES;
     
     // See if the username and password are in the keychain
     NSString *username = [[FTAAuthicationUserManager sharedManager] savedUsername];
@@ -115,14 +120,21 @@
      {
          [SVProgressHUD dismiss];
          __strong typeof(self)self = weakSelf;
-         DLog(@"\nuser: %@\n\n", user);
+         
          if (error)
          {
              DLog(@"\nerror: %@\n\n", error);
-             sleep(0);
+             
+             [self.usernameField resignFirstResponder];
+             [self.passwordField resignFirstResponder];
+             self.errorTextFiled.text = [error.userInfo description];
+             
+             self.errorTextFiled.hidden   = NO;
          }
          else
          {
+             DLog(@"\nuser: %@\n\n", user);
+
              [self.usernameField resignFirstResponder];
              [self.passwordField resignFirstResponder];
              
