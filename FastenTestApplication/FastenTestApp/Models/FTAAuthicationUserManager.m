@@ -163,6 +163,11 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             
         case SR_CLOSED:
             {
+                NSURL *url = [NSURL URLWithString:@"ws://52.29.182.220:8080/customer-gateway/customer"];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                SRWebSocket *serverSocket = [[SRWebSocket alloc] initWithURLRequest:request];
+                serverSocket.delegate = self;
+                self.serverSocket = serverSocket;
                 [_serverSocket open];
                 sleep(0);
             }
