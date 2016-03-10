@@ -82,15 +82,15 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 
 #pragma mark Properties and Methods
 
-- (NSString *)lastSessionToken
+- (NSString *)lastAPIToken
 {
-    NSString *token = [MMKeychain stringForKey:@"sessionToken"];
+    NSString *token = [MMKeychain stringForKey:@"APIToken"];
     return token;
 }
 
-- (void)setLastSessionToken:(NSString *)sessionToken
+- (void)setLastAPIToken:(NSString *)sessionToken
 {
-    [MMKeychain setString:sessionToken forKey:@"sessionToken"];
+    [MMKeychain setString:sessionToken forKey:@"APIToken"];
 }
 
 - (NSString *)savedPassword
@@ -113,9 +113,9 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
     [MMKeychain setString:savedUsername forKey:@"username"];
 }
 
-- (void)clearSessionToken
+- (void)clearAPIToken
 {
-    [MMKeychain deleteStringForKey:@"sessionToken"];
+    [MMKeychain deleteStringForKey:@"APIToken"];
 }
 
 - (void)clearSavedUsername
@@ -222,7 +222,7 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
 - (void)webSocket:(SRWebSocket *)webSocket
    didReceivePong:(NSData *)pongPayload
 {
-    DLog(@"\npongPayload.length = %ul\n\n", pongPayload.length);
+    DLog(@"\npongPayload.length = %lul\n\n", pongPayload.length);
      sleep(0);
 }
 

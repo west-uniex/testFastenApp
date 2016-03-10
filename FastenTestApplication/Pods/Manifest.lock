@@ -1,13 +1,16 @@
 PODS:
   - MMKeychain (1.0)
+  - PureLayout (3.0.1)
   - SVProgressHUD (1.1.3)
 
 DEPENDENCIES:
   - MMKeychain (~> 1.0)
+  - PureLayout
   - SVProgressHUD (~> 1.0)
 
 SPEC CHECKSUMS:
   MMKeychain: c16b187c2f30995036b619c015a8fb978b73f849
+  PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.38.2

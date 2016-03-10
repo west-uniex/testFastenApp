@@ -11,16 +11,27 @@
 #import "FTAAuthicationUserManager.h"
 
 #import "SVProgresshud.h"
+#import "PureLayout.h"
+
+#import "MMTCurrentIphoneModel.h"
 
 @interface FTALoginViewController ()
 
-@property (nonatomic, weak) IBOutlet UILabel *loginLabel;
-@property (nonatomic, weak) IBOutlet UITextField *usernameField;
-@property (nonatomic, weak) IBOutlet UITextField *passwordField;
-@property (nonatomic, weak) IBOutlet UIButton *loginButton;
-@property (nonatomic, weak) IBOutlet UIButton *clearInfoButton;
+@property (nonatomic, weak) IBOutlet UILabel     *loginLabel;
 
-@property (weak, nonatomic) IBOutlet UITextView *errorTextFiled;
+@property (weak, nonatomic) IBOutlet UIView *usernameContentView;
+@property (nonatomic, weak) IBOutlet UITextField *usernameField;
+
+@property (weak, nonatomic) IBOutlet UIView *passwordContentView;
+@property (nonatomic, weak) IBOutlet UITextField *passwordField;
+
+@property (nonatomic, weak) IBOutlet UIButton    *loginButton;
+@property (nonatomic, weak) IBOutlet UIButton    *clearInfoButton;
+
+@property (weak, nonatomic) IBOutlet UITextView  *errorTextFiled;
+
+@property (nonatomic, assign) BOOL didSetupConstraints;
+
 
 @end
 
@@ -53,6 +64,33 @@
     // username and password text fields have values
     self.loginButton.enabled = [self loginButtonShouldBeEnabled];
     
+    //
+    //CGRect mainScreenBounds = [[UIScreen mainScreen] bounds];
+    
+    if ([[MMTCurrentIphoneModel sharedManager] isiPhone4])
+    {
+        self.errorTextFiled.frame = CGRectMake(20, 256, 280, 140);
+    }
+    else if ([[MMTCurrentIphoneModel sharedManager] isiPhone6])
+    {
+        CGFloat newCenterX = 375/2;
+        self.loginLabel.center     = CGPointMake(newCenterX, _loginLabel.center.y);
+        self.usernameField.center  = CGPointMake(newCenterX, _usernameField.center.y);
+        self.passwordField.center  = CGPointMake(newCenterX, _passwordField.center.y);
+        self.loginButton.center    = CGPointMake(newCenterX, _loginButton.center.y);
+        self.clearInfoButton.center= CGPointMake(newCenterX, _clearInfoButton.center.y);
+        
+        self.errorTextFiled.frame = CGRectMake(20, 256, 280, 200);
+    }
+    else if ([[MMTCurrentIphoneModel sharedManager] isiPhone6Plus])
+    {
+        self.loginLabel.center = CGPointMake(207, _loginLabel.center.y);
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +99,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark
 #pragma mark User Interface Methods
+#pragma mark
 
 - (IBAction)clearButtonPressed:(id)sender
 {
@@ -69,13 +109,14 @@
     
     // Delete the last login token, username, and password from the keychain
     // (via the user manager, the implementation details don't belong here
-    [authManager clearSessionToken];
+    [authManager clearAPIToken];
     [authManager clearSavedPassword];
     [authManager clearSavedUsername];
     
     // Set the username and password fields to blank and disable the login button
-    self.usernameField.text = nil;
-    self.passwordField.text = nil;
+    self.usernameField.text  = nil;
+    self.passwordField.text  = nil;
+    self.errorTextFiled.hidden = YES;
     self.loginButton.enabled = [self loginButtonShouldBeEnabled];
 }
 
@@ -103,15 +144,6 @@
     // Show the progress hud
     [SVProgressHUD setForegroundColor:[UIColor colorWithRed:0.31 green:0.46 blue:0.63 alpha:1]];
     [SVProgressHUD showWithStatus:@"Logging In" maskType:SVProgressHUDMaskTypeBlack];
-    
-    /*
-    __weak typeof(self)weakSelf = self;
-    self.block = ^{
-        __strong typeof(self)self = weakSelf;
-        [self m1];
-        [self m2];
-        NSAssert(foo == bar, @"Cool assert!")
-    };*/
     
      __weak __typeof__(self)weakSelf = self;
     [authManager loginWithUsername:username
@@ -142,11 +174,11 @@
          }
          
      }];
-    
-    
 }
 
-# pragma mark UITextField Delegate
+#pragma mark
+#pragma mark UITextField Delegate
+#pragma mark
 
 - (IBAction)textFieldsChanged:(id)sender
 {
@@ -155,8 +187,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    // Resign the responder so the keyboard will dismiss
-    // when the user taps the return button
     [textField resignFirstResponder];
     return YES;
 }

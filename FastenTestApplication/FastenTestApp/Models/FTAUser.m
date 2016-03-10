@@ -35,8 +35,6 @@
 }
 
 
-
-
 - (BOOL)isAPI_Token_expired
 {
     NSDate *now = [NSDate date];
@@ -56,7 +54,7 @@
 {
     NSString *descString = nil;
     
-    descString = [NSString stringWithFormat:@"\napi_token = %@\napi_token_expiration_date = %@\nsequence_id = %@\n\n", self.api_token,self.api_token_expiration_date, self.sequence_id];
+    descString = [NSString stringWithFormat:@"\napi_token = %@\n\napi_token_expiration_date = %@\n\nsequence_id = %@\n\n", self.api_token,self.api_token_expiration_date, self.sequence_id];
     
     return descString;
 }

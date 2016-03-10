@@ -22,7 +22,7 @@
 
 + (FTAAuthicationUserManager *)sharedManager;
 
-- (void)clearSessionToken;
+- (void)clearAPIToken;
 - (void)clearSavedUsername;
 - (void)clearSavedPassword;
 

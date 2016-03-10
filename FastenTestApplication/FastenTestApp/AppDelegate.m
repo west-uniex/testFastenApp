@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "FTAAuthicationUserManager.h"
 @interface AppDelegate ()
 
 @end
@@ -15,8 +15,11 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [[FTAAuthicationUserManager sharedManager] clearAPIToken];
+    [[FTAAuthicationUserManager sharedManager] clearSavedPassword];
+    [[FTAAuthicationUserManager sharedManager] clearSavedUsername];
     return YES;
 }
 

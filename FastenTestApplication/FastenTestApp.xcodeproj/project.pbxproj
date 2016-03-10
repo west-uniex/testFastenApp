@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D858B91FC94C0CA9C364271 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3902C566F4533563CDB31165 /* libPods.a */; };
+		8B0EE2A41C91B49C00D44A5B /* MMTCurrentIphoneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EE2A31C91B49C00D44A5B /* MMTCurrentIphoneModel.m */; };
 		8B8555361C885561009DA472 /* iOS.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8B8555351C885561009DA472 /* iOS.pdf */; };
 		8B8555391C885688009DA472 /* FTAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8555381C885688009DA472 /* FTAUser.m */; };
 		8B8555711C886EC2009DA472 /* FTALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8555701C886EC2009DA472 /* FTALoginViewController.m */; };
@@ -15,7 +16,6 @@
 		8B8555771C889626009DA472 /* FTAUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8555761C889626009DA472 /* FTAUserInfoViewController.m */; };
 		8BF0862F1C874C4D00D336B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0862E1C874C4D00D336B3 /* main.m */; };
 		8BF086321C874C4D00D336B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF086311C874C4D00D336B3 /* AppDelegate.m */; };
-		8BF086351C874C4D00D336B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF086341C874C4D00D336B3 /* ViewController.m */; };
 		8BF086381C874C4D00D336B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BF086361C874C4D00D336B3 /* Main.storyboard */; };
 		8BF0863B1C874C4D00D336B3 /* FastenTestApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8BF086391C874C4D00D336B3 /* FastenTestApp.xcdatamodeld */; };
 		8BF0863D1C874C4D00D336B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BF0863C1C874C4D00D336B3 /* Assets.xcassets */; };
@@ -30,6 +30,8 @@
 /* Begin PBXFileReference section */
 		3902C566F4533563CDB31165 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		782CACAFAC2C5E2F8173B2C1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		8B0EE2A21C91B49C00D44A5B /* MMTCurrentIphoneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMTCurrentIphoneModel.h; path = Tools/MMTCurrentIphoneModel.h; sourceTree = "<group>"; };
+		8B0EE2A31C91B49C00D44A5B /* MMTCurrentIphoneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMTCurrentIphoneModel.m; path = Tools/MMTCurrentIphoneModel.m; sourceTree = "<group>"; };
 		8B8555351C885561009DA472 /* iOS.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = iOS.pdf; sourceTree = "<group>"; };
 		8B8555371C885688009DA472 /* FTAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTAUser.h; path = Models/FTAUser.h; sourceTree = "<group>"; };
 		8B8555381C885688009DA472 /* FTAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTAUser.m; path = Models/FTAUser.m; sourceTree = "<group>"; };
@@ -43,8 +45,6 @@
 		8BF0862E1C874C4D00D336B3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8BF086301C874C4D00D336B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8BF086311C874C4D00D336B3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8BF086331C874C4D00D336B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8BF086341C874C4D00D336B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8BF086371C874C4D00D336B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8BF0863A1C874C4D00D336B3 /* FastenTestApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FastenTestApp.xcdatamodel; sourceTree = "<group>"; };
 		8BF0863C1C874C4D00D336B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,11 +97,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8B85552F1C885364009DA472 /* ?? */ = {
+		8B85552F1C885364009DA472 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				8B0EE2A21C91B49C00D44A5B /* MMTCurrentIphoneModel.h */,
+				8B0EE2A31C91B49C00D44A5B /* MMTCurrentIphoneModel.m */,
 			);
-			name = "??";
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		8B8555301C88543E009DA472 /* Application Delegate */ = {
@@ -127,8 +129,6 @@
 		8B8555321C88548E009DA472 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8BF086331C874C4D00D336B3 /* ViewController.h */,
-				8BF086341C874C4D00D336B3 /* ViewController.m */,
 				8B85556F1C886EC2009DA472 /* FTALoginViewController.h */,
 				8B8555701C886EC2009DA472 /* FTALoginViewController.m */,
 				8B8555751C889626009DA472 /* FTAUserInfoViewController.h */,
@@ -183,7 +183,7 @@
 				8B8555341C8854E7009DA472 /* Views */,
 				8BF086471C874C6800D336B3 /* SRWebSocket */,
 				8B8555331C8854B8009DA472 /* Resources */,
-				8B85552F1C885364009DA472 /* ?? */,
+				8B85552F1C885364009DA472 /* Tools */,
 				8BF0862D1C874C4D00D336B3 /* Supporting Files */,
 			);
 			name = "FastenTestApp (FTA)";
@@ -221,7 +221,6 @@
 				8BF086271C874C4D00D336B3 /* Frameworks */,
 				8BF086281C874C4D00D336B3 /* Resources */,
 				082712C6C2CC428DB13054A8 /* Copy Pods Resources */,
-				CB7CD9C124F849DF1DE50847 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -309,21 +308,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		CB7CD9C124F849DF1DE50847 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -332,10 +316,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BF0863B1C874C4D00D336B3 /* FastenTestApp.xcdatamodeld in Sources */,
-				8BF086351C874C4D00D336B3 /* ViewController.m in Sources */,
 				8B8555771C889626009DA472 /* FTAUserInfoViewController.m in Sources */,
 				8BF0864A1C874C9800D336B3 /* SRWebSocket.m in Sources */,
 				8B8555711C886EC2009DA472 /* FTALoginViewController.m in Sources */,
+				8B0EE2A41C91B49C00D44A5B /* MMTCurrentIphoneModel.m in Sources */,
 				8B8555741C88756F009DA472 /* FTAAuthicationUserManager.m in Sources */,
 				8BF086321C874C4D00D336B3 /* AppDelegate.m in Sources */,
 				8B8555391C885688009DA472 /* FTAUser.m in Sources */,
