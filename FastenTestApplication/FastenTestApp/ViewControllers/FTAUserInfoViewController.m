@@ -25,6 +25,7 @@
 @interface FTAUserInfoViewController () <FTALoginDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *userInfoTextView;
+- (IBAction)webSocketCloseButtonDidTap:(id)sender;
 
 @end
 
@@ -102,7 +103,7 @@
 {
     [super viewDidLayoutSubviews];
     
-    DLog(@" ");
+    //DLog(@" ");
 }
 
 
@@ -164,4 +165,9 @@
 }
 
 
+- (IBAction)webSocketCloseButtonDidTap:(id)sender
+{
+    DLog(@"\n \n\n");
+    [[FTAAuthicationUserManager sharedManager] closeLoginWebSocket];
+}
 @end

@@ -157,7 +157,13 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
             
         case SR_CLOSING:
             {
-                sleep(0);
+                [_serverSocket close];
+                NSURL *url = [NSURL URLWithString:@"ws://52.29.182.220:8080/customer-gateway/customer"];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                SRWebSocket *serverSocket = [[SRWebSocket alloc] initWithURLRequest:request];
+                serverSocket.delegate = self;
+                self.serverSocket = serverSocket;
+                [_serverSocket open];
             }
             break;
             
@@ -176,14 +182,18 @@ typedef int(^FTACompletionBlock)(void(^)(FTAUser *user, NSError *error));
     }
 }
 
+- (void)closeLoginWebSocket
+{
+    [self.serverSocket close];
+}
+
+
 #pragma mark
 #pragma mark    SRWebSocketDelegate
 #pragma mark
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
-    DLog(@"web socket: %@", webSocket);
-    
     NSString *jsonLoginString = [self xxxLoginMessageFromPassword:self.passwordInRequest
                                                             email:self.usernameInRequest
                                                        sequenceId:self.sequenceIdInRequest];

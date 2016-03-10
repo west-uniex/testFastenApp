@@ -31,4 +31,7 @@
                 completion:(void(^)(FTAUser *user, NSError *error))completionBlock;
 
 
+- (void)closeLoginWebSocket;
+
+
 @end
